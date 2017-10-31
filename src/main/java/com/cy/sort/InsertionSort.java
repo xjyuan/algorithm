@@ -1,6 +1,7 @@
 package com.cy.sort;
 
 /**
+ * 插入排序
  * Created by chenying on 2017/10/30.
  */
 public class InsertionSort implements ISort {
