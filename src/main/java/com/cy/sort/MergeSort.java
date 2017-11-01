@@ -12,10 +12,10 @@ public class MergeSort implements ISort {
     @Override
     public int[] sort(int[] arr) {
         List<int[]> arrList = new ArrayList<>();
-        for (int i = 0; i < arr.length - 1; i++) {
+        for (int i = 0; i < arr.length; i++) {
             arrList.add(new int[]{arr[i]});
         }
-        while (arrList.size()>1) {
+        while (arrList.size() > 1) {
             for (int i = 0; i < arrList.size() - 1; i++) {
                 int[] a = arrList.get(i);
                 int[] b = arrList.get(i + 1);
