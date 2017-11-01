@@ -3,10 +3,9 @@
 1. 排序算法  
   1.1 冒泡排序-BubbleSort  
   1.2 插入排序-InsertionSort  
-  1.3 希尔排序-ShellSort  
-  1.4 归并排序-MergeSort  
-  1.5 快速排序-QuickSort  
-  1.6 堆排序-HeapSort  
+  1.3 归并排序-MergeSort  
+  1.4 快速排序-QuickSort  
+  1.5 堆排序-HeapSort  
 2. 树  
   2.1 二叉树结构  
     2.1.1 先序遍历  
