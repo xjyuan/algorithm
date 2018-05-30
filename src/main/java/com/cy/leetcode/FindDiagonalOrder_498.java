@@ -4,7 +4,7 @@ package com.cy.leetcode;
  * created by chenying
  * on 2018/5/29 18:39
  **/
-public class FindDiagonalOrder498 {
+public class FindDiagonalOrder_498 {
     public static void main(String[] args) {
         /*int[][] matrix = {
                 {1, 2, 3},
@@ -13,7 +13,7 @@ public class FindDiagonalOrder498 {
         };*/
         int[][] matrix = {
         };
-        int[] diagonalOrder = new FindDiagonalOrder498().findDiagonalOrder(matrix);
+        int[] diagonalOrder = new FindDiagonalOrder_498().findDiagonalOrder(matrix);
         for (int i = 0; i < diagonalOrder.length; i++) {
             System.out.println(diagonalOrder[i]);
         }
