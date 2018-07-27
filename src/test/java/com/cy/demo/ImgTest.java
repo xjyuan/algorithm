@@ -53,7 +53,7 @@ public class ImgTest {
         if(b<=170) depth++;
 
         Random random = new Random();
-        String result = "";
+        String result = ".";
         switch (depth){
             case 0:result=".";break;
             case 1:result="1";break;
@@ -66,7 +66,7 @@ public class ImgTest {
                 result = String.valueOf(c);
             }
         }
-        return result+" ";
+        return result;
     }
 
 
