@@ -1,179 +1,122 @@
 package com.cy.leetcode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import org.junit.jupiter.api.Test;
+
+import java.util.*;
 
 /**
+ * https://leetcode.com/problems/n-queens/description/
+ *
  * @Author chenying
  * @Date 2018/10/23
  */
 public class NQueens {
-    public static void main(String[] args) {
-        List<List<String>> lists = new NQueens().new Solution().solveNQueens(8);
-        System.out.println(lists);
+    //static int times = 0;
+
+    @Test
+    public void test() {
+        List<List<String>> lists = new NQueens().new Solution().solveNQueens(4);
+        for (List<String> list : lists) {
+            System.out.println(list);
+        }
+        System.out.println(lists.size());
+        //System.out.println(lists.size() + "=======" + times);
     }
 
     class Solution {
         public List<List<String>> solveNQueens(int n) {
-            List<List<String>> list = new ArrayList<>();
-            Stack<Data> stack = new Stack<>();
+            List<List<String>> result = new ArrayList<>();
             int[][] arr = new int[n][n];
-            int num = 0;
-            while (num < n) {
-                for (int i = 0; i < arr.length; i++) {
-                    for (int j = 0; j < arr.length; j++) {
-                        if (arr[i][j] == 0) {
-                            boolean b = queenDown(arr, i, j);
-                            if (b) {
-                                arr[i][j] = -1;
-                                stack.add(new Data(i,j));
-                                num++;
-                            }
-                        }
+            if(n == 1){
+                List<String> s = new ArrayList<>();
+                s.add("Q");
+                result.add(s);
+                return result;
+            }
+            if(n == 2 || n == 3){
+                return result;
+            }
+            for (int j = 0; j < n; j++) {
+                down(arr, 0, j);
+                solve(arr, 1, 1, result);
+                up(arr, 0, j);
+            }
+            return result;
+        }
 
+
+        public void solve(int[][] arr, int m, int num, List<List<String>> result) {
+            for (int j = 0; j < arr.length && num < arr.length; j++) {
+                if (arr[m][j] == 0) {
+                    down(arr, m, j);
+                    num++;
+                    if (num == arr.length) {
+                        List<String> item = parseInfo(arr);
+                        if (item != null) {
+                            result.add(item);
+                        }
                     }
-                    if(i == arr.length -1){
-                        Data peek = stack.peek();
-                        i=peek.i;
-                        int j=peek.j;
-                        arr[i][j] = 0;
-                        queenUp(arr, i,j);
-                    }
+                    solve(arr, m + 1, num, result);
+                    up(arr, m, j);
+                    num--;
+
                 }
             }
+        }
+
+        private List<String> parseInfo(int[][] arr) {
+            int num = 0;
+            char[] tempArr = new char[arr.length];
+            Arrays.fill(tempArr, '.');
+            List<String> result = new ArrayList<>();
             for (int i = 0; i < arr.length; i++) {
                 for (int j = 0; j < arr.length; j++) {
-                    System.out.print(arr[i][j]);
+                    if (arr[i][j] == -1) {
+                        num++;
+                        tempArr[j] = 'Q';
+                        String item = new String(tempArr);
+                        tempArr[j] = '.';
+                        result.add(item);
+                    }
                 }
-                System.out.println();
             }
-            return list;
+            if (num < arr.length) {
+                return null;
+            }
+            return result;
         }
 
-        private boolean queenDown(int[][] arr, int i, int j) {
-            for (int k = 0; k < arr.length; k++) {
-                if (arr[i][k] < 0) {
-                    return false;
-                }
-                arr[i][k] = arr[i][k] + 1;
-                if (arr[k][j] < 0) {
-                    return false;
-                }
-                arr[k][j] = arr[k][j] + 1;
-            }
-            int i1 = i;
-            int j1 = j;
-            while (i1 >= 1 && j1 >= 1) {
-                i1--;
-                j1--;
-                if (arr[i1][j1] < 0) {
-                    return false;
-                }
-                arr[i1][j1] = arr[i1][j1] + 1;
-            }
-
-            int i2 = i;
-            int j2 = j;
-            while (i2 < arr.length-1 && j2 < arr.length-1) {
-                i2++;
-                j2++;
-                if (arr[i2][j2] < 0) {
-                    return false;
-                }
-                arr[i2][j2] = arr[i2][j2] + 1;
-            }
-
-            int i3 = i;
-            int j3 = j;
-            while (i3 < arr.length-1 && j3 >= 1) {
-                i3++;
-                j3--;
-                if (arr[i3][j3] < 0) {
-                    return false;
-                }
-                arr[i3][j3] = arr[i3][j3] + 1;
-            }
-
-            int i4 = i;
-            int j4 = j;
-            while (i4 >= 1 && j4 < arr.length ) {
-                i4--;
-                j4--;
-                if (arr[i4][j4] < 0) {
-                    return false;
-                }
-                arr[i4][j4] = arr[i4][j4] + 1;
-            }
-            return true;
+        private void down(int[][] arr, int i, int j) {
+            fun(arr, i, j, true);
         }
 
-
-        private boolean queenUp(int[][] arr, int i, int j) {
-            for (int k = 0; k < arr.length; k++) {
-                if (arr[i][k] < 0) {
-                    return false;
-                }
-                arr[i][k] = arr[i][k] - 1;
-                if (arr[k][j] < 0) {
-                    return false;
-                }
-                arr[k][j] = arr[k][j] - 1;
-            }
-            int i1 = i;
-            int j1 = j;
-            while (i1 >= 0 && j1 >= 0) {
-                i1--;
-                j1--;
-                if (arr[i1][j1] < 0) {
-                    return false;
-                }
-                arr[i1][j1] = arr[i1][j1] - 1;
-            }
-
-            int i2 = i;
-            int j2 = j;
-            while (i2 < arr.length && j2 < arr.length) {
-                i2++;
-                j2++;
-                if (arr[i2][j2] < 0) {
-                    return false;
-                }
-                arr[i2][j2] = arr[i2][j2] - 1;
-            }
-
-            int i3 = i;
-            int j3 = j;
-            while (i3 < arr.length && j3 >= 0) {
-                i3++;
-                j3--;
-                if (arr[i3][j3] < 0) {
-                    return false;
-                }
-                arr[i3][j3] = arr[i3][j3] - 1;
-            }
-
-            int i4 = i;
-            int j4 = j;
-            while (i4 >= 0 && j4 < arr.length) {
-                i4--;
-                j4--;
-                if (arr[i4][j4] < 0) {
-                    return false;
-                }
-                arr[i4][j4] = arr[i4][j4] - 1;
-            }
-            return true;
+        private void up(int[][] arr, int i, int j) {
+            fun(arr, i, j, false);
         }
-    }
 
-    static class Data{
-        int i;
-        int j;
-
-        Data(int i, int j){
-            this.i = i;
-            this.j = j;
+        private void fun(int[][] arr, int i, int j, boolean isUse) {
+            for (int m = 0; m < arr.length; m++) {
+                for (int n = 0; n < arr.length; n++) {
+                    if (m == i && n == j) {
+                        continue;
+                    }
+                    if (m == i
+                            || n == j
+                            || (n - m == j - i)
+                            || (m + n == i + j)) {
+                        if (isUse) {
+                            arr[m][n]++;
+                        } else {
+                            arr[m][n]--;
+                        }
+                    }
+                }
+            }
+            if (isUse) {
+                arr[i][j] = -1;
+            } else {
+                arr[i][j] = 0;
+            }
         }
     }
 }
